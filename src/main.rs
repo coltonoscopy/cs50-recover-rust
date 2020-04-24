@@ -1,19 +1,20 @@
 use std::io::{BufReader, BufWriter, Read, Write};
 use std::fs::File;
+use std::ffi::OsString;
 use std::env;
 
 fn main() {
     
     // verify correct command-line usage
-    let args: Vec<String> = env::args().skip(1).collect();
+    let args: Vec<OsString> = env::args_os().collect();
     
-    if args.len() < 1 {
+    if args.len() < 2 {
         println!("Usage: ./recover <card file>");
         std::process::exit(1);
     }
     
     // file handler, buffered reader, and buffer
-    let f = File::open(&args[0]).expect("Specified input file not found!");
+    let f = File::open(&args[1]).expect("Specified input file not found!");
     let mut br = BufReader::new(f);
     let mut buf = [0; 512];
 
